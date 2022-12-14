@@ -1,23 +1,23 @@
-# FBI Reloaded
+# FBI Reloaded FR
 
-FBI Reloaded is an improved version of FBI, an open source title manager for the 3DS.
+FBI Reloaded FR est une traduction de FBI Reloaded étant une version améliorée de FBI, Un gestionaire de titre Open source pour 3ds.
 
-Download: https://github.com/TheRealZora/FBI-Reloaded/releases
+téléchargement: https://github.com/cooolgamer/FBI-Reloaded-FR/releases
 
-# Features
+# Fonctionnalités
 
-* Browse and modify the SD card, TWL photos, TWL sounds, save data, and ext save data.
-* Export, import, and erase save data from DS cartridges.
-* Export, import, and delete save data secure values.
-* Install titles/tickets from a file system, over a local network, or over the Internet with a URL or QR code.
-  * Automatically imports title seeds on installation, either from the Internet or the SD card.
-* Browse and delete pending titles (downloaded updates, in-progress eShop titles, etc).
-* Customize appearance by placing replacements for RomFS resources in "sdmc:/fbi/theme/".
+* Navigation et modification de la carte SD, TWL sound, TWL photo, sauvegardes et sauvegardes aditionnelles.
+* Exporter, Importer, et effacer les sauvegardes de cartouches DS.
+* Exporter, Importer, et effacer les Secure Values des sauvegardes (anti-restoration de sauvegarde).
+* Installer des titres/tickets depuis un système de fichier, depuis un réseau ou depuis internet avec une URL ou un QRcode.
+  * Importe automatiquement la seed d'un titre après son installation depuis internet ou la carte SD.
+* Navigation et effacement des titres en attente (mise à jours téléchargés, titres en cours de téléchargement sur l'eshop, etc).
+* Customisation de l'apparence en remplaçant les ressources des RomFS dans "sdmc:/fbi/theme/".
 
-* Only available when run from a CIA, 3DS, or a 3DSX under Luma3DS:
-  * Browse and modify CTR NAND, TWL NAND, and system save data.
-  * Dump the raw NAND image to the SD card.
-  * Launch titles installed to the system.
+* Seulement disponible avec Luma3DS:
+  * Navigation et modification de la CTR NAND, TWL NAND, et sauvegardes système.
+  * Copier l'image de la NAND dans la carte SD.
+  * Démarrer les titres installés dans la console.
 
 # Build (linux)
 
@@ -34,5 +34,6 @@ The directly installable CIA and 3dsx files are under `output/3ds-arm/`.
 Banner: Originally created by [OctopusRift](http://gbatemp.net/members/octopusrift.356526/), touched up by [Apache Thunder](https://gbatemp.net/members/apache-thunder.105648/), updated for new logo by [PabloMK7](http://gbatemp.net/members/pablomk7.345712/).
 
 Logo: [PabloMK7](http://gbatemp.net/members/pablomk7.345712/)
+Traductions: cooolgamer
 
 SPI Protocol Information: [TuxSH](https://github.com/TuxSH/) ([TWLSaveTool](https://github.com/TuxSH/TWLSaveTool))
