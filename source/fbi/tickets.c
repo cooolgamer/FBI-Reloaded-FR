@@ -9,8 +9,8 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item delete_ticket = {"Delete Ticket", COLOR_TEXT, action_delete_ticket};
-static list_item delete_unused_tickets = {"Delete Unused Tickets", COLOR_TEXT, action_delete_tickets_unused};
+static list_item delete_ticket = {"Effacer le Ticket", COLOR_TEXT, action_delete_ticket};
+static list_item delete_unused_tickets = {"Effacer les Tickets inutilisés", COLOR_TEXT, action_delete_tickets_unused};
 
 typedef struct {
     populate_tickets_data populateData;
@@ -69,7 +69,7 @@ static void tickets_action_open(linked_list* items, list_item* selected) {
     data->items = items;
     data->selected = selected;
 
-    list_display("Ticket Action", "A: Select, B: Return", data, tickets_action_update, tickets_action_draw_top);
+    list_display("Ticket", "A: Sélectionner, B: Retour", data, tickets_action_update, tickets_action_draw_top);
 }
 
 static void tickets_draw_top(ui_view* view, void* data, float x1, float y1, float x2, float y2, list_item* selected) {
@@ -109,14 +109,14 @@ static void tickets_update(ui_view* view, void* data, linked_list* items, list_i
         listData->populateData.items = items;
         Result res = task_populate_tickets(&listData->populateData);
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "Failed to initiate ticket list population.");
+            error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste des tickets\n(Failed to initiate ticket list population.)");
         }
 
         listData->populated = true;
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Failed to populate ticket list.");
+        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste de tickets.\n(Failed to populate ticket list.)");
 
         listData->populateData.result = 0;
     }
@@ -137,5 +137,5 @@ void tickets_open() {
 
     data->populateData.finished = true;
 
-    list_display("Tickets", "A: Select, B: Return, X: Refresh", data, tickets_update, tickets_draw_top);
+    list_display("Tickets", "A: Sélectionner, B: Retour, X: Actualiser", data, tickets_update, tickets_draw_top);
 }

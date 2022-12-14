@@ -80,7 +80,7 @@ static Result dumpnand_restore(void* data, u32 index) {
 }
 
 static bool dumpnand_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(NULL, NULL, res, "Failed to dump NAND.");
+    *errorView = error_display_res(NULL, NULL, res, "Impossible de copier la NAND.\n(Failed to dump NAND.)");
     return true;
 }
 
@@ -92,7 +92,7 @@ static void dumpnand_update(ui_view* view, void* data, float* progress, char* te
         info_destroy(view);
 
         if(R_SUCCEEDED(dumpData->result)) {
-            prompt_display_notify("Success", "NAND dumped.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Succès", "NAND copiée.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         free(dumpData);
@@ -118,9 +118,9 @@ static void dumpnand_onresponse(ui_view* view, void* data, u32 response) {
 
         Result res = task_data_op(dumpData);
         if(R_SUCCEEDED(res)) {
-            info_display("Dumping NAND", "Press B to cancel.", true, data, dumpnand_update, NULL);
+            info_display("Copie de la NAND", "Appuyez sur B pour annuler.", true, data, dumpnand_update, NULL);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to initiate NAND dump.");
+            error_display_res(NULL, NULL, res, "Impossible d'initialiser la copie de la NAND\n(Failed to initiate NAND dump.)");
             free(data);
         }
     } else {
@@ -164,5 +164,5 @@ void dumpnand_open() {
 
     data->finished = true;
 
-    prompt_display_yes_no("Confirmation", "Dump raw NAND image to the SD card?", COLOR_TEXT, data, NULL, dumpnand_onresponse);
+    prompt_display_yes_no("Confirmation", "Copier l'image de la NAND dans la carte SD?", COLOR_TEXT, data, NULL, dumpnand_onresponse);
 }

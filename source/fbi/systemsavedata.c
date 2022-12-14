@@ -9,8 +9,8 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item browse_save_data = {"Browse Save Data", COLOR_TEXT, action_browse_system_save_data};
-static list_item delete_save_data = {"Delete Save Data", COLOR_TEXT, action_delete_system_save_data};
+static list_item browse_save_data = {"Parcourir la sauvegarde", COLOR_TEXT, action_browse_system_save_data};
+static list_item delete_save_data = {"Effacer la sauvegarde", COLOR_TEXT, action_delete_system_save_data};
 
 typedef struct {
     populate_system_save_data_data populateData;
@@ -69,7 +69,7 @@ static void systemsavedata_action_open(linked_list* items, list_item* selected) 
     data->items = items;
     data->selected = selected;
 
-    list_display("System Save Data Action", "A: Select, B: Return", data, systemsavedata_action_update, systemsavedata_action_draw_top);
+    list_display("Sauvegarde système", "A: Sélectionner, B: Retour", data, systemsavedata_action_update, systemsavedata_action_draw_top);
 }
 
 static void systemsavedata_draw_top(ui_view* view, void* data, float x1, float y1, float x2, float y2, list_item* selected) {
@@ -109,14 +109,14 @@ static void systemsavedata_update(ui_view* view, void* data, linked_list* items,
         listData->populateData.items = items;
         Result res = task_populate_system_save_data(&listData->populateData);
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "Failed to initiate system save data list population.");
+            error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste de sauvegardes système.\n(Failed to initiate system save data list population.)");
         }
 
         listData->populated = true;
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Failed to populate system save data list.");
+        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste de sauvegardes système.\n(Failed to populate system save data list.)");
 
         listData->populateData.result = 0;
     }
@@ -137,5 +137,5 @@ void systemsavedata_open() {
 
     data->populateData.finished = true;
 
-    list_display("System Save Data", "A: Select, B: Return, X: Refresh", data, systemsavedata_update, systemsavedata_draw_top);
+    list_display("Sauvegardes système", "A: Sélectionner, B: Retour, X: Actualiser", data, systemsavedata_update, systemsavedata_draw_top);
 }

@@ -10,30 +10,30 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item rename_opt = {"Rename", COLOR_TEXT, action_rename};
-static list_item copy = {"Copy", COLOR_TEXT, NULL};
-static list_item paste = {"Paste", COLOR_TEXT, action_paste_contents};
+static list_item rename_opt = {"Renommer", COLOR_TEXT, action_rename};
+static list_item copy = {"Copier", COLOR_TEXT, NULL};
+static list_item paste = {"Coller", COLOR_TEXT, action_paste_contents};
 
-static list_item delete_file = {"Delete", COLOR_TEXT, action_delete_file};
+static list_item delete_file = {"Effacer", COLOR_TEXT, action_delete_file};
 
-static list_item install_cia = {"Install CIA", COLOR_TEXT, action_install_cia};
-static list_item install_and_delete_cia = {"Install and delete CIA", COLOR_TEXT, action_install_cia_delete};
+static list_item install_cia = {"Installer", COLOR_TEXT, action_install_cia};
+static list_item install_and_delete_cia = {"Installer et effacer le CIA", COLOR_TEXT, action_install_cia_delete};
 
-static list_item install_ticket = {"Install ticket", COLOR_TEXT, action_install_ticket};
-static list_item install_and_delete_ticket = {"Install and delete ticket", COLOR_TEXT, action_install_ticket_delete};
+static list_item install_ticket = {"Installer le ticket", COLOR_TEXT, action_install_ticket};
+static list_item install_and_delete_ticket = {"Installer et effacer le ticket", COLOR_TEXT, action_install_ticket_delete};
 
-static list_item delete_dir = {"Delete", COLOR_TEXT, action_delete_dir};
-static list_item copy_all_contents = {"Copy all contents", COLOR_TEXT, NULL};
-static list_item delete_all_contents = {"Delete all contents", COLOR_TEXT, action_delete_dir_contents};
-static list_item new_folder = {"New folder", COLOR_TEXT, action_new_folder};
+static list_item delete_dir = {"Effacer", COLOR_TEXT, action_delete_dir};
+static list_item copy_all_contents = {"Copier tout le contenu", COLOR_TEXT, NULL};
+static list_item delete_all_contents = {"Effacer tout le contenu", COLOR_TEXT, action_delete_dir_contents};
+static list_item new_folder = {"Nouveau dossier", COLOR_TEXT, action_new_folder};
 
-static list_item install_all_cias = {"Install all CIAs", COLOR_TEXT, action_install_cias};
-static list_item install_and_delete_all_cias = {"Install and delete all CIAs", COLOR_TEXT, action_install_cias_delete};
-static list_item delete_all_cias = {"Delete all CIAs", COLOR_TEXT, action_delete_dir_cias};
+static list_item install_all_cias = {"Installer tous les CIAs", COLOR_TEXT, action_install_cias};
+static list_item install_and_delete_all_cias = {"Installer et effacer tout les CIAs", COLOR_TEXT, action_install_cias_delete};
+static list_item delete_all_cias = {"Effacer tout les CIAs", COLOR_TEXT, action_delete_dir_cias};
 
-static list_item install_all_tickets = {"Install all tickets", COLOR_TEXT, action_install_tickets};
-static list_item install_and_delete_all_tickets = {"Install and delete all tickets", COLOR_TEXT, action_install_tickets_delete};
-static list_item delete_all_tickets = {"Delete all tickets", COLOR_TEXT, action_delete_dir_tickets};
+static list_item install_all_tickets = {"Installer tous les tickets", COLOR_TEXT, action_install_tickets};
+static list_item install_and_delete_all_tickets = {"Installer et effacer tous les tickets", COLOR_TEXT, action_install_tickets_delete};
+static list_item delete_all_tickets = {"Effacer tous les tickets", COLOR_TEXT, action_delete_dir_tickets};
 
 typedef struct {
     populate_files_data populateData;
@@ -107,9 +107,9 @@ static void files_action_update(ui_view* view, void* data, linked_list* items, l
 
             Result res = 0;
             if(R_SUCCEEDED(res = clipboard_set_contents(actionData->parent->archive, info->path, selected == &copy_all_contents))) {
-                prompt_display_notify("Success", selected == &copy_all_contents ? "Current directory contents copied to clipboard." : (info->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Current directory copied to clipboard." : "File copied to clipboard.", COLOR_TEXT, info, task_draw_file_info, NULL);
+                prompt_display_notify("Succès", selected == &copy_all_contents ? "Tout le contenu de ce dossier a été copié\ndans le presse-papier." : (info->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Current directory copied to clipboard." : "File copied to clipboard.", COLOR_TEXT, info, task_draw_file_info, NULL);
             } else {
-                error_display_res(info, task_draw_file_info, res, "Failed to copy to clipboard.");
+                error_display_res(info, task_draw_file_info, res, "Impossible de copier dans le presse-papiers.\n(Failed to copy to clipboard.)");
             }
         } else if(selected == &install_all_cias || selected == &install_and_delete_all_cias || selected == &install_all_tickets || selected == &install_and_delete_all_tickets) {
             void (*filteredAction)(linked_list*, list_item*, bool (*)(void*, const char*, u32), void*) = action;
@@ -196,7 +196,7 @@ static void files_action_open(linked_list* items, list_item* selected, files_dat
         }
     }
 
-    list_display((((file_info*) selected->data)->attributes & FS_ATTRIBUTE_DIRECTORY) ? "Directory Action" : "File Action", "A: Select, B: Return", data, files_action_update, files_action_draw_top);
+    list_display((((file_info*) selected->data)->attributes & FS_ATTRIBUTE_DIRECTORY) ? "" : "", "A: Sélectionner, B: Retour", data, files_action_update, files_action_draw_top);
 }
 
 static void files_options_add_entry(linked_list* items, const char* name, bool* val) {
@@ -238,16 +238,16 @@ static void files_options_update(ui_view* view, void* data, linked_list* items, 
     }
 
     if(linked_list_size(items) == 0) {
-        files_options_add_entry(items, "Show hidden", &listData->showHidden);
-        files_options_add_entry(items, "Show directories", &listData->showDirectories);
-        files_options_add_entry(items, "Show files", &listData->showFiles);
-        files_options_add_entry(items, "Show CIAs", &listData->showCias);
-        files_options_add_entry(items, "Show tickets", &listData->showTickets);
+        files_options_add_entry(items, "Montrer les fichiers cachés", &listData->showHidden);
+        files_options_add_entry(items, "Montrer les dossiers", &listData->showDirectories);
+        files_options_add_entry(items, "Montrer les fichiers", &listData->showFiles);
+        files_options_add_entry(items, "Montrer les CIAs", &listData->showCias);
+        files_options_add_entry(items, "Montrer les tickets", &listData->showTickets);
     }
 }
 
 static void files_options_open(files_data* data) {
-    list_display("Options", "A: Toggle, B: Return", data, files_options_update, NULL);
+    list_display("Options", "A: Changer, B: Retour", data, files_options_update, NULL);
 }
 
 static void files_draw_top(ui_view* view, void* data, float x1, float y1, float x2, float y2, list_item* selected) {
@@ -270,7 +270,7 @@ static void files_repopulate(files_data* listData, linked_list* items) {
 
     Result res = task_populate_files(&listData->populateData);
     if(R_FAILED(res)) {
-        error_display_res(NULL, NULL, res, "Failed to initiate file list population.");
+        error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste des fichiers.\n(Failed to initiate file list population.)");
     }
 
     listData->populated = true;
@@ -360,7 +360,7 @@ static void files_update(ui_view* view, void* data, linked_list* items, list_ite
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Failed to populate file list.");
+        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste des fichiers.\n(Failed to populate file list.)");
 
         listData->populateData.result = 0;
     }
@@ -418,7 +418,7 @@ void files_open(FS_ArchiveID archiveId, FS_Path archivePath) {
         return;
     }
 
-    list_display("Files", "A: Select, B: Back, X: Refresh, Select: Options", data, files_update, files_draw_top);
+    list_display("Fichiers", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, files_update, files_draw_top);
 }
 
 static void files_open_nand_warning_onresponse(ui_view* view, void* data, u32 response) {
@@ -430,7 +430,7 @@ static void files_open_nand_warning_onresponse(ui_view* view, void* data, u32 re
 }
 
 void files_open_nand_warning(FS_ArchiveID archive) {
-    prompt_display_yes_no("Confirmation", "Modifying the NAND is dangerous and can render\n the system inoperable.\nMake sure you know what you are doing.\n\nProceed?", COLOR_TEXT, (void*) archive, NULL, files_open_nand_warning_onresponse);
+    prompt_display_yes_no("Confirmation", "Modifier la NAND est dangereux et peut rendre\nle système inutilisable.\nSoyez sûr de savoir ce que vous faites.\n\nContinuer?", COLOR_TEXT, (void*) archive, NULL, files_open_nand_warning_onresponse);
 }
 
 void files_open_sd() {

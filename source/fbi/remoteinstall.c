@@ -167,7 +167,7 @@ static void remoteinstall_network_update(ui_view* view, void* data, float* progr
         }
 
         if(remoteinstall_network_recvwait(networkData->clientSocket, urls, size, 0) != size) {
-            error_display_errno(NULL, NULL, errno, "Failed to read URL(s).");
+            error_display_errno(NULL, NULL, errno, "Impossible de lire les URLs.\n(Failed to read URL(s).)");
 
             free(urls);
             remoteinstall_network_close_client(data);
@@ -175,7 +175,7 @@ static void remoteinstall_network_update(ui_view* view, void* data, float* progr
         }
 
         remoteinstall_set_last_urls(urls);
-        action_install_url("Install from the received URL(s)?", urls, NULL, data, NULL, remoteinstall_network_close_client, NULL);
+        action_install_url("Installer depuis les URL(s) reçus?", urls, NULL, data, NULL, remoteinstall_network_close_client, NULL);
 
         free(urls);
     } else if(errno != EAGAIN) {
@@ -194,7 +194,7 @@ static void remoteinstall_network_update(ui_view* view, void* data, float* progr
     }
 
     struct in_addr addr = {(in_addr_t) gethostid()};
-    snprintf(text, PROGRESS_TEXT_MAX, "Waiting for connection...\nIP: %s\nPort: 5000", inet_ntoa(addr));
+    snprintf(text, PROGRESS_TEXT_MAX, "En attente de connection...\nIP: %s\nPort: 5000", inet_ntoa(addr));
 }
 
 static void remoteinstall_receive_urls_network() {
@@ -236,7 +236,7 @@ static void remoteinstall_receive_urls_network() {
         return;
     }
 
-    info_display("Receive URL(s)", "B: Return", false, data, remoteinstall_network_update, NULL);
+    info_display("Reception d'URL(s)", "B: Retour", false, data, remoteinstall_network_update, NULL);
 }
 
 #define QR_IMAGE_WIDTH 400
@@ -324,7 +324,7 @@ static void remoteinstall_qr_update(ui_view* view, void* data, float* progress, 
             ui_pop();
             info_destroy(view);
 
-            error_display_res(NULL, NULL, capRes, "Failed to start camera capture.");
+            error_display_res(NULL, NULL, capRes, "Impossible d'accèder à la caméra.");
 
             remoteinstall_qr_free_data(installData);
             return;
@@ -376,12 +376,12 @@ static void remoteinstall_qr_update(ui_view* view, void* data, float* progress, 
 
             remoteinstall_set_last_urls((const char*) qrData.payload);
 
-            action_install_url("Install from the scanned QR code?", (const char*) qrData.payload, NULL, NULL, NULL, NULL, NULL);
+            action_install_url("Installer depuis ce QR code scanné?", (const char*) qrData.payload, NULL, NULL, NULL, NULL, NULL);
             return;
         }
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Waiting for QR code...");
+    snprintf(text, PROGRESS_TEXT_MAX, "En attente de QR code...");
 }
 
 static void remoteinstall_scan_qr_code() {
@@ -428,7 +428,7 @@ static void remoteinstall_scan_qr_code() {
 
     data->tex = screen_allocate_free_texture();
 
-    info_display("QR Code Install", "B: Return, X: Switch Camera", false, data, remoteinstall_qr_update, remoteinstall_qr_draw_top);
+    info_display("QR Code Install", "B: Retour, X: Changer de caméra", false, data, remoteinstall_qr_update, remoteinstall_qr_draw_top);
 }
 
 static void remoteinstall_manually_enter_urls_onresponse(ui_view* view, void* data, SwkbdButton button, const char* response) {
@@ -440,16 +440,16 @@ static void remoteinstall_manually_enter_urls_onresponse(ui_view* view, void* da
 }
 
 static void remoteinstall_manually_enter_urls() {
-    kbd_display("Enter URL(s)", "", SWKBD_TYPE_NORMAL, SWKBD_MULTILINE, SWKBD_NOTEMPTY_NOTBLANK, DOWNLOAD_URL_MAX * INSTALL_URLS_MAX, NULL, remoteinstall_manually_enter_urls_onresponse);
+    kbd_display("Entrez les URL(s)", "", SWKBD_TYPE_NORMAL, SWKBD_MULTILINE, SWKBD_NOTEMPTY_NOTBLANK, DOWNLOAD_URL_MAX * INSTALL_URLS_MAX, NULL, remoteinstall_manually_enter_urls_onresponse);
 }
 
 static void remoteinstall_repeat_last_request() {
     char* textBuf = (char*) calloc(1, DOWNLOAD_URL_MAX * INSTALL_URLS_MAX);
     if(textBuf != NULL) {
         if(remoteinstall_get_last_urls(textBuf, DOWNLOAD_URL_MAX * INSTALL_URLS_MAX)) {
-            action_install_url("Install from the last requested URL(s)?", textBuf, NULL, NULL, NULL, NULL, NULL);
+            action_install_url("Installer depuis la dernière URL utilisée?", textBuf, NULL, NULL, NULL, NULL, NULL);
         } else {
-            prompt_display_notify("Failure", "No previously requested URL(s) could be found.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Échec", "Aucune dernière URL trouvée", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         free(textBuf);
@@ -461,17 +461,17 @@ static void remoteinstall_repeat_last_request() {
 static void remoteinstall_forget_last_request() {
     Result forgetRes = remoteinstall_set_last_urls(NULL);
     if(R_SUCCEEDED(forgetRes)) {
-        prompt_display_notify("Success", "Last requested URL(s) forgotten.", COLOR_TEXT, NULL, NULL, NULL);
+        prompt_display_notify("Succès", "Last requested URL(s) forgotten.", COLOR_TEXT, NULL, NULL, NULL);
     } else {
-        error_display_res(NULL, NULL, forgetRes, "Failed to forget last requested URL(s).");
+        error_display_res(NULL, NULL, forgetRes, "Impossible d'effacer la dernière URL utilisée.\n(Failed to forget last requested URL(s).)");
     }
 }
 
-static list_item receive_urls_network = {"Receive URLs over the network", COLOR_TEXT, remoteinstall_receive_urls_network};
-static list_item scan_qr_code = {"Scan QR Code", COLOR_TEXT, remoteinstall_scan_qr_code};
-static list_item manually_enter_urls = {"Manually enter URLs", COLOR_TEXT, remoteinstall_manually_enter_urls};
-static list_item repeat_last_request = {"Repeat last request", COLOR_TEXT, remoteinstall_repeat_last_request};
-static list_item forget_last_request = {"Forget last request", COLOR_TEXT, remoteinstall_forget_last_request};
+static list_item receive_urls_network = {"Recevoir des URLs sur le réseau", COLOR_TEXT, remoteinstall_receive_urls_network};
+static list_item scan_qr_code = {"Scanner un QR Code", COLOR_TEXT, remoteinstall_scan_qr_code};
+static list_item manually_enter_urls = {"Entrer manuellement les URLs", COLOR_TEXT, remoteinstall_manually_enter_urls};
+static list_item repeat_last_request = {"Repéter la dernière requête", COLOR_TEXT, remoteinstall_repeat_last_request};
+static list_item forget_last_request = {"Oublier la dernière requête", COLOR_TEXT, remoteinstall_forget_last_request};
 
 static void remoteinstall_update(ui_view* view, void* data, linked_list* items, list_item* selected, bool selectedTouched) {
     if(hidKeysDown() & KEY_B) {
@@ -496,5 +496,5 @@ static void remoteinstall_update(ui_view* view, void* data, linked_list* items, 
 }
 
 void remoteinstall_open() {
-    list_display("Remote Install", "A: Select, B: Return", NULL, remoteinstall_update, NULL);
+    list_display("Installation en ligne", "A: Sélectionner, B: Retour", NULL, remoteinstall_update, NULL);
 }
