@@ -330,5 +330,5 @@ void titles_open() {
     data->sortByName = true;
     data->sortBySize = false;
 
-    list_display("Titles", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, titles_update, titles_draw_top);
+    list_display("Titres", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, titles_update, titles_draw_top);
 }

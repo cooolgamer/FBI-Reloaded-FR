@@ -59,7 +59,7 @@ static Result action_delete_tickets_restore(void* data, u32 index) {
 }
 
 static bool action_delete_tickets_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_delete_tickets_draw_top, res, "Failed to delete ticket(s).");
+    *errorView = error_display_res(data, action_delete_tickets_draw_top, res, "Impossible d'effacer les ticket(s)\n(Failed to delete ticket(s).)");
     return true;
 }
 
@@ -80,7 +80,7 @@ static void action_delete_tickets_update(ui_view* view, void* data, float* progr
         info_destroy(view);
 
         if(R_SUCCEEDED(deleteData->deleteInfo.result)) {
-            prompt_display_notify("Success", "Ticket(s) deleted.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Succès", "Ticket(s) effacé.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_delete_tickets_free_data(deleteData);
@@ -102,7 +102,7 @@ static void action_delete_tickets_onresponse(ui_view* view, void* data, u32 resp
     if(response == PROMPT_YES) {
         Result res = task_data_op(&deleteData->deleteInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Deleting", "Press B to cancel.", true, data, action_delete_tickets_update, action_delete_tickets_draw_top);
+            info_display("Effacement", "Appuyez sur B pour annuler.", true, data, action_delete_tickets_update, action_delete_tickets_draw_top);
         } else {
             error_display_res(NULL, NULL, res, "Failed to initiate delete operation.");
 
@@ -150,7 +150,7 @@ static void action_delete_tickets_loading_update(ui_view* view, void* data, floa
 
             prompt_display_yes_no("Confirmation", loadingData->message, COLOR_TEXT, loadingData->deleteData, action_delete_tickets_draw_top, action_delete_tickets_onresponse);
         } else {
-            error_display_res(NULL, NULL, loadingData->popData.result, "Failed to populate ticket list.");
+            error_display_res(NULL, NULL, loadingData->popData.result, "Impossible d'obtenir la liste des tickets.\n(Failed to populate ticket list.)");
 
             action_delete_tickets_free_data(loadingData->deleteData);
         }
@@ -163,7 +163,7 @@ static void action_delete_tickets_loading_update(ui_view* view, void* data, floa
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching ticket list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "Récupération de la liste des tickets...");
 }
 
 static void action_delete_tickets_internal(linked_list* items, list_item* selected, const char* message, bool unused) {
@@ -208,14 +208,14 @@ static void action_delete_tickets_internal(linked_list* items, list_item* select
 
         Result listRes = task_populate_tickets(&loadingData->popData);
         if(R_FAILED(listRes)) {
-            error_display_res(NULL, NULL, listRes, "Failed to initiate ticket list population.");
+            error_display_res(NULL, NULL, listRes, "Impossible d'initialiser la liste des tickets.\n(Failed to initiate ticket list population.)");
 
             free(loadingData);
             action_delete_tickets_free_data(data);
             return;
         }
 
-        info_display("Loading", "Press B to cancel.", false, loadingData, action_delete_tickets_loading_update, action_delete_tickets_loading_draw_top);
+        info_display("Chargement", "Appuyez sur B pour annuler.", false, loadingData, action_delete_tickets_loading_update, action_delete_tickets_loading_draw_top);
     } else {
         linked_list_add(&data->contents, selected);
 
@@ -227,9 +227,9 @@ static void action_delete_tickets_internal(linked_list* items, list_item* select
 }
 
 void action_delete_ticket(linked_list* items, list_item* selected) {
-    action_delete_tickets_internal(items, selected, "Delete the selected ticket?", false);
+    action_delete_tickets_internal(items, selected, "Effacer ce ticket?", false);
 }
 
 void action_delete_tickets_unused(linked_list* items, list_item* selected) {
-    action_delete_tickets_internal(items, selected, "Delete all unused tickets?", true);
+    action_delete_tickets_internal(items, selected, "Effacer tous les tickets inutilisés?", true);
 }

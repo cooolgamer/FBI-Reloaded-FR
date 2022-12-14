@@ -83,7 +83,7 @@ static Result action_import_twl_save_restore(void* data, u32 index) {
 }
 
 static bool action_import_twl_save_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(((import_twl_save_data*) data)->title, task_draw_title_info, res, "Failed to import save.");
+    *errorView = error_display_res(((import_twl_save_data*) data)->title, task_draw_title_info, res, "Impossible d'importer la sauvegarde.\n(Failed to import save.)");
     return true;
 }
 
@@ -95,7 +95,7 @@ static void action_import_twl_save_update(ui_view* view, void* data, float* prog
         info_destroy(view);
 
         if(R_SUCCEEDED(importData->importInfo.result)) {
-            prompt_display_notify("Success", "Save imported.", COLOR_TEXT, importData->title, task_draw_title_info, NULL);
+            prompt_display_notify("Succès", "Sauvegarde importée.", COLOR_TEXT, importData->title, task_draw_title_info, NULL);
         }
 
         free(data);
@@ -124,7 +124,7 @@ static void action_import_twl_save_onresponse(ui_view* view, void* data, u32 res
 
         Result res = task_data_op(&importData->importInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Importing Save", "Press B to cancel.", true, data, action_import_twl_save_update, action_import_twl_save_draw_top);
+            info_display("Importation de la sauvegarde", "Appuyez sur B pour annuler.", true, data, action_import_twl_save_update, action_import_twl_save_draw_top);
         } else {
             error_display_res(importData->title, task_draw_title_info, res, "Failed to initiate save import.");
             free(data);
@@ -172,5 +172,5 @@ void action_import_twl_save(linked_list* items, list_item* selected) {
 
     data->importInfo.finished = true;
 
-    prompt_display_yes_no("Confirmation", "Import the save of the selected title?", COLOR_TEXT, data, action_import_twl_save_draw_top, action_import_twl_save_onresponse);
+    prompt_display_yes_no("Confirmation", "Importer la sauvegarde de ce titre?", COLOR_TEXT, data, action_import_twl_save_draw_top, action_import_twl_save_onresponse);
 }

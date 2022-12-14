@@ -78,7 +78,7 @@ static Result action_delete_restore(void* data, u32 index) {
 }
 
 static bool action_delete_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_delete_draw_top, res, "Failed to delete content.");
+    *errorView = error_display_res(data, action_delete_draw_top, res, "Impossible d'effacer ce contenu\n(Failed to delete content.)");
     return true;
 }
 
@@ -105,7 +105,7 @@ static void action_delete_update(ui_view* view, void* data, float* progress, cha
         info_destroy(view);
 
         if(R_SUCCEEDED(deleteData->deleteInfo.result)) {
-            prompt_display_notify("Success", "Deleted.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Succès", "Effacé.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_delete_free_data(deleteData);
@@ -127,7 +127,7 @@ static void action_delete_onresponse(ui_view* view, void* data, u32 response) {
     if(response == PROMPT_YES) {
         Result res = task_data_op(&deleteData->deleteInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Deleting", "Press B to cancel.", true, data, action_delete_update, action_delete_draw_top);
+            info_display("Effacement", "Appuyez sur B pour annuler.", true, data, action_delete_update, action_delete_draw_top);
         } else {
             error_display_res(NULL, NULL, res, "Failed to initiate delete operation.");
 
@@ -163,7 +163,7 @@ static void action_delete_loading_update(ui_view* view, void* data, float* progr
 
             prompt_display_yes_no("Confirmation", loadingData->message, COLOR_TEXT, loadingData->deleteData, action_delete_draw_top, action_delete_onresponse);
         } else {
-            error_display_res(NULL, NULL, loadingData->popData.result, "Failed to populate content list.");
+            error_display_res(NULL, NULL, loadingData->popData.result, "Impossible d'obtenir la liste de contenu\n(Failed to populate content list.)");
 
             action_delete_free_data(loadingData->deleteData);
         }
@@ -176,7 +176,7 @@ static void action_delete_loading_update(ui_view* view, void* data, float* progr
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching content list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "Récupération de la liste des contenus...");
 }
 
 static void action_delete_internal(linked_list* items, list_item* selected, const char* message, bool recursive, bool includeBase, bool ciasOnly, bool ticketsOnly) {
@@ -244,25 +244,25 @@ static void action_delete_internal(linked_list* items, list_item* selected, cons
         return;
     }
 
-    info_display("Loading", "Press B to cancel.", false, loadingData, action_delete_loading_update, action_delete_loading_draw_top);
+    info_display("Chargement", "Appuyez sur B pour annuler.", false, loadingData, action_delete_loading_update, action_delete_loading_draw_top);
 }
 
 void action_delete_file(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete the selected file?", false, true, false, false);
+    action_delete_internal(items, selected, "Effacer ce fichier?", false, true, false, false);
 }
 
 void action_delete_dir(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete the current directory?", true, true, false, false);
+    action_delete_internal(items, selected, "Effacer ce dossier?", true, true, false, false);
 }
 
 void action_delete_dir_contents(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete all contents of the current directory?", true, false, false, false);
+    action_delete_internal(items, selected, "Effacer tout le contenu de ce dossier?", true, false, false, false);
 }
 
 void action_delete_dir_cias(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete all CIAs in the current directory?", false, false, true, false);
+    action_delete_internal(items, selected, "Effacer tout les CIAs de ce dossier?", false, false, true, false);
 }
 
 void action_delete_dir_tickets(linked_list* items, list_item* selected) {
-    action_delete_internal(items, selected, "Delete all tickets in the current directory?", false, false, false, true);
+    action_delete_internal(items, selected, "Effacer tout les tickets de ce dossier?", false, false, false, true);
 }

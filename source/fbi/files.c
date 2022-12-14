@@ -347,7 +347,7 @@ static void files_update(ui_view* view, void* data, linked_list* items, list_ite
     if(selected != NULL && selected->data != NULL && (selectedTouched || (hidKeysDown() & KEY_A))) {
         file_info* fileInfo = (file_info*) selected->data;
 
-        if((fileInfo->attributes & FS_ATTRIBUTE_DIRECTORY) && strncmp(selected->name, "<current directory>", LIST_ITEM_NAME_MAX) != 0) {
+        if((fileInfo->attributes & FS_ATTRIBUTE_DIRECTORY) && strncmp(selected->name, "<dossier actuel>", LIST_ITEM_NAME_MAX) != 0) {
             files_navigate(listData, items, fileInfo->path);
         } else {
             files_action_open(items, selected, listData);

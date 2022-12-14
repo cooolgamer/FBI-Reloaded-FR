@@ -67,10 +67,10 @@ void task_draw_ext_save_data_info(ui_view* view, void* data, float x1, float y1,
     char infoText[512];
 
     snprintf(infoText, sizeof(infoText),
-             "Ext Save Data ID: %016llX\n"
-                     "Shared: %s",
+             "ID de sauvegarde aditionnelle: %016llX\n"
+                     "Partagé: %s",
              info->extSaveDataId,
-             info->shared ? "Yes" : "No");
+             info->shared ? "Oui" : "Non");
 
     float infoWidth;
     screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
@@ -87,18 +87,18 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
     size_t infoTextPos = 0;
 
     if(strlen(info->name) > 48) {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Name: %.45s...\n", info->name);
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Nom: %.45s...\n", info->name);
     } else {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Name: %.48s\n", info->name);
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Nom: %.48s\n", info->name);
     }
 
-    infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Attributes: ");
+    infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Attributs: ");
 
     if(info->attributes & (FS_ATTRIBUTE_DIRECTORY | FS_ATTRIBUTE_HIDDEN | FS_ATTRIBUTE_ARCHIVE | FS_ATTRIBUTE_READ_ONLY)) {
         bool needsSeparator = false;
 
         if(info->attributes & FS_ATTRIBUTE_DIRECTORY) {
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Directory");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Dossier");
             needsSeparator = true;
         }
 
@@ -107,7 +107,7 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
                 infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, ", ");
             }
 
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Hidden");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Caché");
             needsSeparator = true;
         }
 
@@ -125,11 +125,11 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
                 infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, ", ");
             }
 
-            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Read Only");
+            infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Lecture seulement");
             needsSeparator = true;
         }
     } else {
-        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "None");
+        infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "Aucun");
     }
 
     infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos, "\n");
@@ -152,8 +152,8 @@ void task_draw_file_info(ui_view* view, void* data, float x1, float y1, float x2
             infoTextPos += snprintf(infoText + infoTextPos, sizeof(infoText) - infoTextPos,
                                     "Title ID: %016llX\n"
                                             "Version: %hu (%d.%d.%d)\n"
-                                            "Region: %s\n"
-                                            "Installed Size: %.2f %s",
+                                            "Région: %s\n"
+                                            "Taille installé: %.2f %s",
                                     info->ciaInfo.titleId,
                                     info->ciaInfo.version, (info->ciaInfo.version >> 10) & 0x3F, (info->ciaInfo.version >> 4) & 0x3F, info->ciaInfo.version & 0xF,
                                     regionString,
@@ -179,7 +179,7 @@ void task_draw_pending_title_info(ui_view* view, void* data, float x1, float y1,
 
     snprintf(infoText, sizeof(infoText),
              "Pending Title ID: %016llX\n"
-                     "Media Type: %s\n"
+                     "Type de média: %s\n"
                      "Version: %hu (%d.%d.%d)",
              info->titleId,
              info->mediaType == MEDIATYPE_NAND ? "NAND" : info->mediaType == MEDIATYPE_SD ? "SD" : "Game Card",
@@ -198,7 +198,7 @@ void task_draw_system_save_data_info(ui_view* view, void* data, float x1, float 
 
     char infoText[512];
 
-    snprintf(infoText, sizeof(infoText), "System Save Data ID: %08lX", info->systemSaveDataId);
+    snprintf(infoText, sizeof(infoText), "ID de sauvegarde système: %08lX", info->systemSaveDataId);
 
     float infoWidth;
     screen_get_string_size(&infoWidth, NULL, infoText, 0.5f, 0.5f);
@@ -235,20 +235,20 @@ void task_draw_title_info(ui_view* view, void* data, float x1, float y1, float x
 
         smdh_region_to_string(regionString, info->meta.region, sizeof(regionString));
     } else {
-        snprintf(regionString, sizeof(regionString), "Unknown");
+        snprintf(regionString, sizeof(regionString), "Inconnu");
     }
 
     char infoText[512];
 
     snprintf(infoText, sizeof(infoText),
              "Title ID: %016llX\n"
-                     "Media Type: %s\n"
+                     "Type de média: %s\n"
                      "Version: %hu (%d.%d.%d)\n"
-                     "Product Code: %s\n"
-                     "Region: %s\n"
-                     "Size: %.2f %s",
+                     "Code de produit: %s\n"
+                     "Région: %s\n"
+                     "Taille: %.2f %s",
              info->titleId,
-             info->mediaType == MEDIATYPE_NAND ? "NAND" : info->mediaType == MEDIATYPE_SD ? "SD" : "Game Card",
+             info->mediaType == MEDIATYPE_NAND ? "NAND" : info->mediaType == MEDIATYPE_SD ? "SD" : "Cartouche",
              info->version, (info->version >> 10) & 0x3F, (info->version >> 4) & 0x3F, info->version & 0xF,
              info->productCode,
              regionString,

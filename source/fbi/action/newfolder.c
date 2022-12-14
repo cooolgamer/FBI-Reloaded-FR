@@ -43,9 +43,9 @@ static void action_new_folder_onresponse(ui_view* view, void* data, SwkbdButton 
                 linked_list_sort(newFolderData->items, NULL, task_compare_files);
             }
 
-            prompt_display_notify("Success", "Folder created.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Succès", "Dossier créé.", COLOR_TEXT, NULL, NULL, NULL);
         } else {
-            error_display_res(NULL, NULL, res, "Failed to create folder.");
+            error_display_res(NULL, NULL, res, "Impossible de créer le dossier.\nattention aux caractères invalide!");
         }
     }
 
@@ -63,5 +63,5 @@ void action_new_folder(linked_list* items, list_item* selected) {
     data->items = items;
     data->selected = selected;
 
-    kbd_display("Enter folder name", "", SWKBD_TYPE_NORMAL, 0, SWKBD_NOTEMPTY_NOTBLANK, FILE_NAME_MAX, data, action_new_folder_onresponse);
+    kbd_display("Entrez le nom du dossier", "", SWKBD_TYPE_NORMAL, 0, SWKBD_NOTEMPTY_NOTBLANK, FILE_NAME_MAX, data, action_new_folder_onresponse);
 }

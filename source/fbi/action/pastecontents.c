@@ -211,7 +211,7 @@ static Result action_paste_contents_restore(void* data, u32 index) {
 }
 
 static bool action_paste_contents_error(void* data, u32 index, Result res, ui_view** errorView) {
-    *errorView = error_display_res(data, action_paste_contents_draw_top, res, "Failed to paste content.");
+    *errorView = error_display_res(data, action_paste_contents_draw_top, res, "Impossible de coller le contenu\n(Failed to paste content.)");
     return true;
 }
 
@@ -240,7 +240,7 @@ static void action_paste_contents_update(ui_view* view, void* data, float* progr
         info_destroy(view);
 
         if(R_SUCCEEDED(pasteData->pasteInfo.result)) {
-            prompt_display_notify("Success", "Contents pasted.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Succès", "Contenu collé.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_paste_contents_free_data(pasteData);
@@ -268,7 +268,7 @@ static void action_paste_contents_onresponse(ui_view* view, void* data, u32 resp
     if(response == PROMPT_YES) {
         Result res = task_data_op(&pasteData->pasteInfo);
         if(R_SUCCEEDED(res)) {
-            info_display("Pasting Contents", "Press B to cancel.", true, data, action_paste_contents_update, action_paste_contents_draw_top);
+            info_display("Copie de fichiers", "Appuyez sur B pour annuler.", true, data, action_paste_contents_update, action_paste_contents_draw_top);
         } else {
             error_display_res(NULL, NULL, res, "Failed to initiate paste operation.");
 
@@ -300,7 +300,7 @@ static void action_paste_contents_loading_update(ui_view* view, void* data, floa
             loadingData->pasteData->pasteInfo.total = linked_list_size(&loadingData->pasteData->contents);
             loadingData->pasteData->pasteInfo.processed = loadingData->pasteData->pasteInfo.total;
 
-            prompt_display_yes_no("Confirmation", "Paste clipboard contents to the current directory?", COLOR_TEXT, loadingData->pasteData, action_paste_contents_draw_top, action_paste_contents_onresponse);
+            prompt_display_yes_no("Confirmation", "Coller le contenu du presse-papier ici?", COLOR_TEXT, loadingData->pasteData, action_paste_contents_draw_top, action_paste_contents_onresponse);
         } else {
             error_display_res(NULL, NULL, loadingData->popData.result, "Failed to populate clipboard content list.");
 
@@ -315,12 +315,12 @@ static void action_paste_contents_loading_update(ui_view* view, void* data, floa
         svcSignalEvent(loadingData->popData.cancelEvent);
     }
 
-    snprintf(text, PROGRESS_TEXT_MAX, "Fetching clipboard content list...");
+    snprintf(text, PROGRESS_TEXT_MAX, "Récupération du contenu du presse-papier...");
 }
 
 void action_paste_contents(linked_list* items, list_item* selected) {
     if(!clipboard_has_contents()) {
-        prompt_display_notify("Failure", "Clipboard empty.", COLOR_TEXT, NULL, NULL, NULL);
+        prompt_display_notify("Échec", "Le presse-papier est vide mdr", COLOR_TEXT, NULL, NULL, NULL);
         return;
     }
 
@@ -400,5 +400,5 @@ void action_paste_contents(linked_list* items, list_item* selected) {
         return;
     }
 
-    info_display("Loading", "Press B to cancel.", false, loadingData, action_paste_contents_loading_update, action_paste_contents_loading_draw_top);
+    info_display("Chargement", "Appuyez sur B pour annuler.", false, loadingData, action_paste_contents_loading_update, action_paste_contents_loading_draw_top);
 }

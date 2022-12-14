@@ -137,5 +137,5 @@ void pendingtitles_open() {
 
     data->populateData.finished = true;
 
-    list_display("Pending Titles", "A: Sélectionner, B: Retour, X: Actualiser", data, pendingtitles_update, pendingtitles_draw_top);
+    list_display("Titres en attente", "A: Sélectionner, B: Retour, X: Actualiser", data, pendingtitles_update, pendingtitles_draw_top);
 }
