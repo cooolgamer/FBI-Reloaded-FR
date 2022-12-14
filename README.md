@@ -34,6 +34,7 @@ The directly installable CIA and 3dsx files are under `output/3ds-arm/`.
 Banner: Originally created by [OctopusRift](http://gbatemp.net/members/octopusrift.356526/), touched up by [Apache Thunder](https://gbatemp.net/members/apache-thunder.105648/), updated for new logo by [PabloMK7](http://gbatemp.net/members/pablomk7.345712/).
 
 Logo: [PabloMK7](http://gbatemp.net/members/pablomk7.345712/)
+
 Traductions: cooolgamer
 
 SPI Protocol Information: [TuxSH](https://github.com/TuxSH/) ([TWLSaveTool](https://github.com/TuxSH/TWLSaveTool))
