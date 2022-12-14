@@ -6,12 +6,7 @@ BUILD_DIR := build
 OUTPUT_DIR := output
 INCLUDE_DIRS := include
 SOURCE_DIRS := source
-
-ifeq ($(DARK_THEME),true)
-	ROMFS_DIR := romfs_dark
-else
-	ROMFS_DIR := romfs_light
-endif
+ROMFS_DIR := romfs
 
 LIBRARY_DIRS += $(DEVKITPRO)/libctru $(DEVKITPRO)/portlibs/armv6k $(DEVKITPRO)/portlibs/3ds
 LIBRARIES += curl mbedtls mbedx509 mbedcrypto jansson z citro3d ctru
@@ -26,8 +21,8 @@ VERSION_MAJOR := $(word 1, $(VERSION_PARTS))
 VERSION_MINOR := $(word 2, $(VERSION_PARTS))
 VERSION_MICRO := $(word 3, $(VERSION_PARTS))
 
-DESCRIPTION := Open source title manager.
-AUTHOR := Steveice10, yogsoy, Zora
+DESCRIPTION := Gestionnaire de titre Open source.
+AUTHOR := Steveice10, yogsoy, Zora, cooolgamer
 
 PRODUCT_CODE := CTR-P-CFBI
 UNIQUE_ID := 0xF8001
