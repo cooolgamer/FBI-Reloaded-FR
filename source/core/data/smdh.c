@@ -9,12 +9,12 @@
 #define SMDH_ALL_REGIONS 0x7F
 
 static const char* smdh_region_strings[SMDH_NUM_REGIONS] = {
-        "Japan",
-        "North America",
+        "Japon",
+        "États Unis",
         "Europe",
-        "Australia",
-        "China",
-        "Korea",
+        "Australie",
+        "Chine",
+        "Corée du sud",
         "Taiwan"
 };
 
@@ -24,9 +24,9 @@ void smdh_region_to_string(char* out, u32 region, size_t size) {
     }
 
     if(region == 0) {
-        snprintf(out, size, "Unknown");
+        snprintf(out, size, "Inconnu");
     } else if((region & SMDH_ALL_REGIONS) == SMDH_ALL_REGIONS) {
-        snprintf(out, size, "Region Free");
+        snprintf(out, size, "Toutes régions");
     } else {
         size_t pos = 0;
 
