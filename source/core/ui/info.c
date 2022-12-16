@@ -80,7 +80,7 @@ ui_view* info_display(const char* name, const char* info, bool bar, void* data, 
     infoData->bar = bar;
     infoData->data = data;
     infoData->progress = 0;
-    snprintf(infoData->text, PROGRESS_TEXT_MAX, "Please wait...");
+    snprintf(infoData->text, PROGRESS_TEXT_MAX, "Veuillez patienter...");
     infoData->update = update;
     infoData->drawTop = drawTop;
 
