@@ -48,11 +48,11 @@ static const char* summary_to_string(Result res) {
         case RS_OUTOFRESOURCE:
             return "Plus d'espace libre";
         case RS_NOTFOUND:
-            return "Non trouvé";
+            return "Non trouvé (Not found)";
         case RS_INVALIDSTATE:
             return "Invalid state";
         case RS_NOTSUPPORTED:
-            return "Non supporté";
+            return "Non supporté (Not sSupported)";
         case RS_INVALIDARG:
             return "Invalid argument";
         case RS_WRONGARG:
