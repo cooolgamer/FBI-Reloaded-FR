@@ -320,7 +320,7 @@ static void action_paste_contents_loading_update(ui_view* view, void* data, floa
 
 void action_paste_contents(linked_list* items, list_item* selected) {
     if(!clipboard_has_contents()) {
-        prompt_display_notify("Échec", "Le presse-papier est vide mdr", COLOR_TEXT, NULL, NULL, NULL);
+        prompt_display_notify("Échec", "Le presse-papier est vide.", COLOR_TEXT, NULL, NULL, NULL);
         return;
     }
 
