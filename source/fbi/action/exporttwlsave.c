@@ -186,5 +186,5 @@ void action_export_twl_save(linked_list* items, list_item* selected) {
 
     data->exportInfo.finished = true;
 
-    prompt_display_yes_no("Confirmation", "Exporter la sauvegarde de ce titre?", COLOR_TEXT, data, action_export_twl_save_draw_top, action_export_twl_save_onresponse);
+    prompt_display_yes_no("Confirmation", "Exporter la sauvegarde de ce logiciel?", COLOR_TEXT, data, action_export_twl_save_draw_top, action_export_twl_save_onresponse);
 }

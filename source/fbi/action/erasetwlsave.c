@@ -164,5 +164,5 @@ void action_erase_twl_save(linked_list* items, list_item* selected) {
 
     data->eraseInfo.finished = true;
 
-    prompt_display_yes_no("Confirmation", "Effacer la sauvegarde de ce titre?", COLOR_TEXT, data, action_erase_twl_save_draw_top, action_erase_twl_save_onresponse);
+    prompt_display_yes_no("Confirmation", "Effacer la sauvegarde de ce logiciel?", COLOR_TEXT, data, action_erase_twl_save_draw_top, action_erase_twl_save_onresponse);
 }

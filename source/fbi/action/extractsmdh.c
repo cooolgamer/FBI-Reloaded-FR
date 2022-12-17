@@ -74,5 +74,5 @@ static void action_extract_smdh_onresponse(ui_view* view, void* data, u32 respon
 }
 
 void action_extract_smdh(linked_list* items, list_item* selected) {
-    prompt_display_yes_no("Confirmation", "Extraire le SMDH de ce titre?", COLOR_TEXT, selected->data, task_draw_title_info, action_extract_smdh_onresponse);
+    prompt_display_yes_no("Confirmation", "Extraire le SMDH de ce logiciel?", COLOR_TEXT, selected->data, task_draw_title_info, action_extract_smdh_onresponse);
 }

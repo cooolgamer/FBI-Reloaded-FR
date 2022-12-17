@@ -32,12 +32,12 @@ static void action_delete_title_update(ui_view* view, void* data, float* progres
     info_destroy(view);
 
     if(R_FAILED(res)) {
-        error_display_res(info, task_draw_title_info, res, "Impossible d'effacer ce titre\n(Failed to delete title.)");
+        error_display_res(info, task_draw_title_info, res, "Impossible d'effacer ce logiciel\n(Failed to delete title.)");
     } else {
         linked_list_remove(deleteData->items, deleteData->selected);
         task_free_title(deleteData->selected);
 
-        prompt_display_notify("Succès", "Titre effacé.", COLOR_TEXT, NULL, NULL, NULL);
+        prompt_display_notify("Succès", "Logiciel effacé.", COLOR_TEXT, NULL, NULL, NULL);
     }
 
     free(data);
@@ -45,7 +45,7 @@ static void action_delete_title_update(ui_view* view, void* data, float* progres
 
 static void action_delete_title_onresponse(ui_view* view, void* data, u32 response) {
     if(response == PROMPT_YES) {
-        info_display("Effacement du titre", "", false, data, action_delete_title_update, action_delete_title_draw_top);
+        info_display("Effacement du logiciel", "", false, data, action_delete_title_update, action_delete_title_draw_top);
     } else {
         free(data);
     }
@@ -67,9 +67,9 @@ static void action_delete_title_internal(linked_list* items, list_item* selected
 }
 
 void action_delete_title(linked_list* items, list_item* selected) {
-    action_delete_title_internal(items, selected, "Effacer ce titre?", false);
+    action_delete_title_internal(items, selected, "Effacer ce logiciel?", false);
 }
 
 void action_delete_title_ticket(linked_list* items, list_item* selected) {
-    action_delete_title_internal(items, selected, "Effacer ce titre et son ticket?", true);
+    action_delete_title_internal(items, selected, "Effacer ce logiciel et son ticket?", true);
 }

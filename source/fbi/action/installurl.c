@@ -103,7 +103,7 @@ static Result action_install_url_open_dst(void* data, u32 index, void* initialRe
 
             bool n3ds = false;
             if(R_SUCCEEDED(APT_CheckNew3DS(&n3ds)) && !n3ds && ((titleId >> 28) & 0xF) == 2) {
-                ui_view* view = prompt_display_yes_no("Confirmation", "Ce titre est prévu pour les New 3DS.\nContinuer?", COLOR_TEXT, data, action_install_url_draw_top, action_install_url_n3ds_onresponse);
+                ui_view* view = prompt_display_yes_no("Confirmation", "Ce logiciel est prévu pour les New 3DS.\nContinuer?", COLOR_TEXT, data, action_install_url_draw_top, action_install_url_n3ds_onresponse);
                 if(view != NULL) {
                     svcWaitSynchronization(view->active, U64_MAX);
                 }

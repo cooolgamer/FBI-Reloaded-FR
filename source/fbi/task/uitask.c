@@ -67,7 +67,7 @@ void task_draw_ext_save_data_info(ui_view* view, void* data, float x1, float y1,
     char infoText[512];
 
     snprintf(infoText, sizeof(infoText),
-             "ID de sauvegarde aditionnelle: %016llX\n"
+             "ID de données aditionnelles: %016llX\n"
                      "Partagé: %s",
              info->extSaveDataId,
              info->shared ? "Oui" : "Non");

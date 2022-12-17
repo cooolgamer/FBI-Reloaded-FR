@@ -10,9 +10,9 @@
 #include "task/uitask.h"
 #include "../core/core.h"
 
-static list_item launch_title = {"Démarrer le titre", COLOR_TEXT, action_launch_title};
-static list_item delete_title = {"Effacer le titre", COLOR_TEXT, action_delete_title};
-static list_item delete_title_ticket = {"Effacer le titre et son ticket", COLOR_TEXT, action_delete_title_ticket};
+static list_item launch_title = {"Démarrer le logiciel", COLOR_TEXT, action_launch_title};
+static list_item delete_title = {"Effacer le logiciel", COLOR_TEXT, action_delete_title};
+static list_item delete_title_ticket = {"Effacer le logiciel et son ticket", COLOR_TEXT, action_delete_title_ticket};
 static list_item extract_smdh = {"Extraire le SMDH", COLOR_TEXT, action_extract_smdh};
 static list_item import_seed = {"Importer la Seed", COLOR_TEXT, action_import_seed};
 static list_item browse_save_data = {"Parcourir la sauvegarde", COLOR_TEXT, action_browse_title_save_data};
@@ -113,7 +113,7 @@ static void titles_action_open(linked_list* items, list_item* selected) {
     data->items = items;
     data->selected = selected;
 
-    list_display("Titre", "A: Sélectionner, B: Retour", data, titles_action_update, titles_action_draw_top);
+    list_display("Logiciel", "A: Sélectionner, B: Retour", data, titles_action_update, titles_action_draw_top);
 }
 
 static void titles_options_add_entry(linked_list* items, const char* name, bool* val) {
@@ -231,14 +231,14 @@ static void titles_update(ui_view* view, void* data, linked_list* items, list_it
         listData->populateData.items = items;
         Result res = task_populate_titles(&listData->populateData);
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste des titres.\n(Failed to initiate title list population.)");
+            error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste des logiciels.\n(Failed to initiate title list population.)");
         }
 
         listData->populated = true;
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste des titres.\n(Failed to populate title list.)");
+        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste des logiciels.\n(Failed to populate title list.)");
 
         listData->populateData.result = 0;
     }
@@ -330,5 +330,5 @@ void titles_open() {
     data->sortByName = true;
     data->sortBySize = false;
 
-    list_display("Titres", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, titles_update, titles_draw_top);
+    list_display("Liste des logiciels", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, titles_update, titles_draw_top);
 }

@@ -77,7 +77,7 @@ static void extsavedata_action_open(linked_list* items, list_item* selected) {
     data->items = items;
     data->selected = selected;
 
-    list_display("Donnée aditionnelle", "A: Sélectionner, B: Retour", data, extsavedata_action_update, extsavedata_action_draw_top);
+    list_display("Données aditionnelles", "A: Sélectionner, B: Retour", data, extsavedata_action_update, extsavedata_action_draw_top);
 }
 
 static void extsavedata_options_add_entry(linked_list* items, const char* name, bool* val) {
@@ -188,14 +188,14 @@ static void extsavedata_update(ui_view* view, void* data, linked_list* items, li
         listData->populateData.items = items;
         Result res = task_populate_ext_save_data(&listData->populateData);
         if(R_FAILED(res)) {
-            error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste de sauvegardes aditionnelles.\n(Failed to initiate ext save data list population.)");
+            error_display_res(NULL, NULL, res, "Impossible d'initialiser la liste de données aditionnelles.\n(Failed to initiate ext save data list population.)");
         }
 
         listData->populated = true;
     }
 
     if(listData->populateData.finished && R_FAILED(listData->populateData.result)) {
-        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste de sauvegardes aditionnelles.\n(Failed to populate ext save data list.)");
+        error_display_res(NULL, NULL, listData->populateData.result, "Impossible d'obtenir la liste de données aditionnelles.\n(Failed to populate ext save data list.)");
 
         listData->populateData.result = 0;
     }
@@ -271,5 +271,5 @@ void extsavedata_open() {
     data->sortById = false;
     data->sortByName = true;
 
-    list_display("Sauvegardes aditionnelles", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, extsavedata_update, extsavedata_draw_top);
+    list_display("Données aditionnelles", "A: Sélectionner, B: Retour, X: Actualiser, Select: Options", data, extsavedata_update, extsavedata_draw_top);
 }

@@ -29,5 +29,5 @@ static void action_import_seed_onresponse(ui_view* view, void* data, u32 respons
 }
 
 void action_import_seed(linked_list* items, list_item* selected) {
-    prompt_display_yes_no("Confirmation", "Importer la seed de ce titre?", COLOR_TEXT, selected->data, task_draw_title_info, action_import_seed_onresponse);
+    prompt_display_yes_no("Confirmation", "Importer la seed de ce logiciel?", COLOR_TEXT, selected->data, task_draw_title_info, action_import_seed_onresponse);
 }
