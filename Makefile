@@ -21,7 +21,7 @@ VERSION_MAJOR := $(word 1, $(VERSION_PARTS))
 VERSION_MINOR := $(word 2, $(VERSION_PARTS))
 VERSION_MICRO := $(word 3, $(VERSION_PARTS))
 
-DESCRIPTION := Gestionnaire de titre Open source.
+DESCRIPTION := Gestionnaire de logiciels Open source.
 AUTHOR := Steveice10, yogsoy, Zora, coool
 
 PRODUCT_CODE := CTR-P-CFBI
