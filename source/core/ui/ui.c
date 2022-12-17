@@ -157,13 +157,13 @@ static void ui_draw_top(ui_view* ui) {
     screen_get_string_size(&verWidth, &verHeight, verText, 0.5f, 0.5f);
     screen_draw_string(verText, topScreenTopBarX + 2, topScreenTopBarY + (topScreenTopBarHeight - verHeight) / 2, 0.5f, 0.5f, COLOR_TEXT, true);
 
-    const char *days = { "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" };
-    const char *months = { "Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec" };
+    const char *days[] = { "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" };
+    const char *months[] = { "Jan", "Fev", "Mar", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec" };
 
     char timeText[100];
     time_t t = time(NULL);
     struct tm *tm = gmtime(&t);
-    sprintf(timeText, sizeof(timeText), "%s %s %d %d:%d:%d %d", days[tm->tm_wday], months[tm->tm_mon], tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, tm->tm_year + 1900);
+    snprintf(timeText, sizeof(timeText), "%s %s %d %d:%d:%d %d", days[tm->tm_wday], months[tm->tm_mon], tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, tm->tm_year + 1900);
 
 
     float timeTextWidth;
