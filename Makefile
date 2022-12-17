@@ -1,6 +1,6 @@
 TARGET := 3DS
 
-NAME := FBI Reloaded
+NAME := FBI FR
 
 BUILD_DIR := build
 OUTPUT_DIR := output
