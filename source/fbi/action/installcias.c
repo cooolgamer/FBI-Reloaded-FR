@@ -209,7 +209,7 @@ static void action_install_cias_update(ui_view* view, void* data, float* progres
         info_destroy(view);
 
         if(R_SUCCEEDED(installData->installInfo.result)) {
-            prompt_display_notify("Succès", "Installation terminé.", COLOR_TEXT, NULL, NULL, NULL);
+            prompt_display_notify("Succès", "Installation terminée.", COLOR_TEXT, NULL, NULL, NULL);
         }
 
         action_install_cias_free_data(installData);
